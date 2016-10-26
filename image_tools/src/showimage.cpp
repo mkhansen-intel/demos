@@ -51,7 +51,7 @@ encoding2mat_type(const std::string & encoding)
 // \param[in] msg The image message to show.
 void show_image(const sensor_msgs::msg::Image::SharedPtr msg, bool show_camera)
 {
-  printf("Received image #%s\n", msg->header.frame_id.c_str());
+  std::cout << "Received image #" << msg->header.frame_id << std::endl;
 
   if (show_camera) {
     // Convert to an OpenCV matrix by assigning the data.

@@ -47,7 +47,7 @@ def test_reliable_pub_best_effort_sub():
 def _test_executables(publisher_executable_args, subscriber_executable_args):
     output_handlers = []
     launch_descriptor = LaunchDescriptor()
-    
+
     rmw_implementation = '@rmw_implementation@'
 
     # Launch the process that will receive the images.

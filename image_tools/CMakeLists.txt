@@ -74,11 +74,11 @@ if(BUILD_TESTING)
       @ONLY
     )
     file(GENERATE
-      OUTPUT test_showimage_cam2image${target_suffix}.py
+      OUTPUT test_showimage_cam2image${target_suffix}_$<CONFIGURATION>.py
       INPUT test_showimage_cam2image${target_suffix}.py.configured)
 
     ament_add_nose_test(test_demo_showimage_cam2image${target_suffix}
-      "${CMAKE_CURRENT_BINARY_DIR}/test_showimage_cam2image${target_suffix}.py"
+      "${CMAKE_CURRENT_BINARY_DIR}/test_showimage_cam2image${target_suffix}_$<CONFIGURATION>.py"
       TIMEOUT 90)
   endmacro()
 

@@ -79,7 +79,7 @@ if(BUILD_TESTING)
 
     ament_add_nose_test(test_demo_showimage_cam2image${target_suffix}
       "${CMAKE_CURRENT_BINARY_DIR}/test_showimage_cam2image${target_suffix}.py"
-      TIMEOUT 60)
+      TIMEOUT 90)
   endmacro()
 
   call_for_each_rmw_implementation(testing_targets)

@@ -26,11 +26,28 @@ def setup():
     os.environ['OSPL_VERBOSITY'] = '8'  # 8 = OS_NONE
 
 
-def test_executable():
+def test_reliable_qos():
+    pub_executable_args = ['-r', '1', '-s', '0', '-b']
+    sub_executable_args = ['-r', '1', '-s', '0', '-b']
+    _test_executables(pub_executable_args, sub_executable_args)
+
+
+def test_best_effort_qos():
+    pub_executable_args = ['-r', '0', '-s', '0', '-b']
+    sub_executable_args = ['-r', '0', '-s', '0', '-b']
+    _test_executables(pub_executable_args, sub_executable_args)
+
+
+def test_reliable_pub_best_effort_sub():
+    pub_executable_args = ['-r', '1', '-s', '0', '-b']
+    sub_executable_args = ['-r', '0', '-s', '0', '-b']
+    _test_executables(pub_executable_args, sub_executable_args)
+
+
+def _test_executables(publisher_executable_args, subscriber_executable_args):
     output_handlers = []
-
     launch_descriptor = LaunchDescriptor()
-
+    
     rmw_implementation = '@rmw_implementation@'
 
     # Launch the process that will receive the images.
@@ -44,11 +61,14 @@ def test_executable():
         filtered_rmw_implementation=rmw_implementation)
     assert showimage_handler, 'Cannot find appropriate handler for %s' % showimage_output_file
     output_handlers.append(showimage_handler)
+
+    command = [showimage_executable]
+    command.extend(subscriber_executable_args)
     launch_descriptor.add_process(
-        cmd=[showimage_executable, '-r', '0', '-s', '0'],
+        cmd=command,
         name=showimage_name,
         exit_handler=primary_ignore_returncode_exit_handler,
-        output_handlers=[ConsoleOutput(), showimage_handler],
+        output_handlers=[showimage_handler, ConsoleOutput()],
     )
 
     # Launch the process that will publish the images.
@@ -61,8 +81,11 @@ def test_executable():
         filtered_rmw_implementation=rmw_implementation)
     assert cam2image_handler, 'Cannot find appropriate handler for %s' % cam2image_output_file
     output_handlers.append(cam2image_handler)
+
+    command = [cam2image_executable]
+    command.extend(publisher_executable_args)
     launch_descriptor.add_process(
-        cmd=[cam2image_executable, '-r', '0', '-s', '0', '-b'],
+        cmd=command,
         name=cam2image_name,
         exit_handler=ignore_exit_handler,
         output_handlers=[cam2image_handler, ConsoleOutput()],
@@ -80,4 +103,6 @@ def test_executable():
         handler.check()
 
 if __name__ == '__main__':
-    test_executable()
+    test_reliable_qos()
+    test_best_effort_qos()
+    test_reliable_pub_best_effort_sub()

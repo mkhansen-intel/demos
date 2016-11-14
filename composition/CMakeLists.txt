@@ -75,6 +75,16 @@ macro(targets)
       "-Wl,--as-needed")
   endif()
   target_link_libraries(linktime_composition${target_suffix} ${libs})
+  if(WIN32)
+    set(_link_flags "")
+    foreach(_lib ${libs})
+      list(APPEND _link_flags "/WHOLEARCHIVE:${_lib}")
+    endforeach()
+    list(APPEND _link_flags "/FORCE:MULTIPLE")
+    string(REPLACE ";" " " _link_flags "${_link_flags}")
+    set_target_properties(linktime_composition${target_suffix}
+      PROPERTIES LINK_FLAGS "${_link_flags}")
+  endif()
   ament_target_dependencies(linktime_composition${target_suffix}
     "rclcpp${target_suffix}"
     "class_loader")

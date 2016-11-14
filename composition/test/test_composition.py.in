@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import os
-from unittest.case import SkipTest
 
 from launch import LaunchDescriptor
 from launch.exit_handler import default_exit_handler
@@ -30,9 +29,6 @@ def test_manual_composition():
 
 
 def test_linktime_composition():
-    if os.name == 'nt':
-        print('The link time registration of classes does not work on Windows')
-        raise SkipTest
     name = 'test_linktime_composition'
     executable = '@LINKTIME_COMPOSITION_EXECUTABLE@'
     launch(name, [executable])

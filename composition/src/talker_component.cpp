@@ -43,4 +43,5 @@ void Talker::on_timer()
 
 #include "class_loader/class_loader_register_macro.h"
 
-CLASS_LOADER_REGISTER_CLASS(composition::Talker, rclcpp::Node)
+//CLASS_LOADER_REGISTER_CLASS(composition::Talker, rclcpp::Node)
+CLASS_LOADER_REGISTER_CLASS_WITH_MESSAGE(composition::Talker, rclcpp::Node, "reg talker")

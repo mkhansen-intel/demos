@@ -41,4 +41,5 @@ Listener::Listener()
 
 #include "class_loader/class_loader_register_macro.h"
 
-CLASS_LOADER_REGISTER_CLASS(composition::Listener, rclcpp::Node)
+//CLASS_LOADER_REGISTER_CLASS(composition::Listener, rclcpp::Node)
+CLASS_LOADER_REGISTER_CLASS_WITH_MESSAGE(composition::Listener, rclcpp::Node, "reg listener")

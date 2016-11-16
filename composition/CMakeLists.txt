@@ -81,6 +81,7 @@ macro(targets)
       list(APPEND _link_flags "/WHOLEARCHIVE:${_lib}")
     endforeach()
     list(APPEND _link_flags "/FORCE:MULTIPLE")
+    list(APPEND _link_flags "/opt:noref")
     string(REPLACE ";" " " _link_flags "${_link_flags}")
     set_target_properties(linktime_composition${target_suffix}
       PROPERTIES LINK_FLAGS "${_link_flags}")
